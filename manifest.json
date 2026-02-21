@@ -1,0 +1,9 @@
+{
+  "name": "Halal Browser",
+  "short_name": "Halal",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#071421",
+  "theme_color": "#f5d97e",
+  "icons": []
+}
