@@ -1,38 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Halal Browser Supreme</title>
-
-<link rel="manifest" href="manifest.json">
+<title>Halal Browser</title>
 
 <style>
 body{
 margin:0;
-font-family:Segoe UI;
-background:linear-gradient(#071421,#000814);
+font-family:Segoe UI, sans-serif;
+background:radial-gradient(circle at top,#0b1a2d,#000814);
 color:#f5d97e;
-overflow-x:hidden;
-transition:0.5s;
+overflow:hidden;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+height:100vh;
 }
 
-body.eidMode{
-background:linear-gradient(#102027,#001f3f);
-color:#ffffff;
-}
-
-/* Mosque silhouette */
-.mosque{
-position:fixed;
-bottom:0;
-width:100%;
-height:150px;
-background:linear-gradient(to top,#000 40%,transparent);
-clip-path:polygon(0% 100%,0% 60%,20% 50%,30% 60%,40% 45%,50% 60%,60% 50%,70% 60%,80% 55%,100% 65%,100% 100%);
-}
-
-/* Moon */
+/* Crescent */
 .moon{
 position:absolute;
 top:60px;
@@ -40,7 +27,7 @@ right:120px;
 width:120px;height:120px;
 background:gold;
 border-radius:50%;
-box-shadow:-30px 0 0 25px #071421;
+box-shadow:-30px 0 0 25px #0b1a2d;
 animation:float 6s infinite ease-in-out;
 }
 @keyframes float{
@@ -52,7 +39,6 @@ animation:float 6s infinite ease-in-out;
 position:absolute;
 width:2px;height:2px;
 background:white;
-box-shadow:0 0 10px white;
 animation:twinkle 3s infinite alternate;
 }
 @keyframes twinkle{
@@ -60,118 +46,93 @@ from{opacity:0.2;}
 to{opacity:1;}
 }
 
-/* Clouds */
-.cloud{
-position:absolute;
-top:120px;
-width:300px;height:100px;
-background:rgba(255,255,255,0.05);
-border-radius:50px;
-filter:blur(20px);
-animation:moveCloud 80s linear infinite;
-}
-@keyframes moveCloud{
-from{left:-400px;}
-to{left:100%;}
+h1{
+font-size:48px;
+letter-spacing:3px;
+margin-bottom:30px;
+text-shadow:0 0 20px gold;
 }
 
-header{
-text-align:center;
-padding:40px;
-font-size:42px;
-animation:glow 3s infinite alternate;
-}
-@keyframes glow{
-from{text-shadow:0 0 10px gold;}
-to{text-shadow:0 0 35px #f5d97e;}
+/* Search */
+.search-box{
+display:flex;
+width:60%;
+max-width:600px;
 }
 
-.card{
-background:rgba(255,215,0,0.05);
-border:1px solid rgba(255,215,0,0.3);
-margin:25px auto;
-padding:20px;
-width:85%;
-border-radius:15px;
-backdrop-filter:blur(10px);
-transition:0.3s;
-}
-.card:hover{
-transform:scale(1.02);
-box-shadow:0 0 20px gold;
-}
-
-.progress{
-width:100%;
-background:#222;
-border-radius:20px;
-overflow:hidden;
-}
-.progress-bar{
-height:20px;
-background:gold;
-width:0%;
-}
-
-button{
-padding:10px 20px;
+.search-box input{
+flex:1;
+padding:15px;
+border-radius:30px 0 0 30px;
 border:none;
-border-radius:20px;
+outline:none;
+font-size:16px;
+}
+
+.search-box button{
+padding:15px 25px;
+border:none;
+border-radius:0 30px 30px 0;
 background:gold;
 cursor:pointer;
-margin-top:10px;
+font-weight:bold;
+transition:0.3s;
 }
+
+.search-box button:hover{
+background:#f5d97e;
+box-shadow:0 0 15px gold;
+}
+
+/* Quick Links */
+.links{
+margin-top:30px;
+display:flex;
+gap:20px;
+flex-wrap:wrap;
+justify-content:center;
+}
+
+.link-btn{
+padding:12px 20px;
+background:rgba(255,215,0,0.1);
+border:1px solid rgba(255,215,0,0.4);
+border-radius:20px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.link-btn:hover{
+background:gold;
+color:black;
+box-shadow:0 0 15px gold;
+transform:scale(1.05);
+}
+
 </style>
 </head>
 <body>
 
 <div class="moon"></div>
-<div class="cloud"></div>
-<div class="mosque"></div>
 
-<header>HALAL BROWSER 🌙</header>
+<h1>HALAL BROWSER 🌙</h1>
 
-<div style="text-align:center;">
-<button onclick="toggleTheme()">Switch Ramadan / Eid Mode</button>
+<div class="search-box">
+<input type="text" id="search" placeholder="Search the web...">
+<button onclick="search()">Search</button>
 </div>
 
-<div class="card">
-<h2>Hijri Date</h2>
-<p id="hijriDate"></p>
-</div>
-
-<div class="card">
-<h2>Prayer Times</h2>
-<p id="prayerTimes">Loading...</p>
-</div>
-
-<div class="card">
-<h2>Maghrib Countdown</h2>
-<p id="maghribCountdown"></p>
-</div>
-
-<div class="card">
-<h2>Ramadan Progress</h2>
-<div class="progress">
-<div class="progress-bar" id="ramadanBar"></div>
-</div>
-<p id="ramadanText"></p>
-</div>
-
-<div class="card">
-<h2>Eid Countdown</h2>
-<p id="eidCountdown"></p>
-</div>
-
-<div class="card">
-<h2>Daily Ayah</h2>
-<p id="ayah"></p>
+<div class="links">
+<div class="link-btn" onclick="openSite('https://youtube.com')">YouTube</div>
+<div class="link-btn" onclick="openSite('https://gmail.com')">Gmail</div>
+<div class="link-btn" onclick="openSite('https://drive.google.com')">Drive</div>
+<div class="link-btn" onclick="openSite('https://chat.openai.com')">ChatGPT</div>
 </div>
 
 <script>
 
-/* 300 Stars */
-for(let i=0;i<300;i++){
+/* Stars */
+for(let i=0;i<150;i++){
 let s=document.createElement("div");
 s.className="star";
 s.style.top=Math.random()*window.innerHeight+"px";
@@ -179,59 +140,17 @@ s.style.left=Math.random()*window.innerWidth+"px";
 document.body.appendChild(s);
 }
 
-/* Theme */
-function toggleTheme(){
-document.body.classList.toggle("eidMode");
+/* Search */
+function search(){
+let query=document.getElementById("search").value;
+if(query.trim() !== ""){
+window.location.href="https://www.google.com/search?q="+encodeURIComponent(query);
+}
 }
 
-/* Hijri */
-let hijri=new Intl.DateTimeFormat('en-TN-u-ca-islamic',
-{day:'numeric',month:'long',year:'numeric'}).format(new Date());
-document.getElementById("hijriDate").innerText=hijri;
-
-/* Ayah rotation */
-const ayahs=[
-"Indeed, with hardship comes ease. (94:6)",
-"Allah is with the patient. (2:153)",
-"So remember Me; I will remember you. (2:152)",
-"Call upon Me; I will respond to you. (40:60)"
-];
-document.getElementById("ayah").innerText=
-ayahs[Math.floor(Math.random()*ayahs.length)];
-
-/* Eid countdown */
-function updateEid(){
-let now=new Date();
-let eid=new Date("March 30, 2026");
-let diff=eid-now;
-let d=Math.floor(diff/(1000*60*60*24));
-document.getElementById("eidCountdown").innerText=d+" days remaining";
-}
-setInterval(updateEid,1000);
-
-/* Ramadan Progress */
-let start=new Date("March 1, 2026");
-let today=new Date();
-let day=Math.floor((today-start)/(1000*60*60*24))+1;
-if(day>0 && day<=30){
-let percent=(day/30)*100;
-document.getElementById("ramadanBar").style.width=percent+"%";
-document.getElementById("ramadanText").innerText="Day "+day+" of 30";
-}
-
-/* Prayer API */
-navigator.geolocation.getCurrentPosition(pos=>{
-fetch(`https://api.aladhan.com/v1/timings?latitude=${pos.coords.latitude}&longitude=${pos.coords.longitude}&method=2`)
-.then(res=>res.json())
-.then(data=>{
-let t=data.data.timings;
-document.getElementById("prayerTimes").innerHTML=
-`Fajr: ${t.Fajr}<br>Dhuhr: ${t.Dhuhr}<br>Asr: ${t.Asr}<br>Maghrib: ${t.Maghrib}<br>Isha: ${t.Isha}`;
-});
-});
-
-if('serviceWorker' in navigator){
-navigator.serviceWorker.register('sw.js');
+/* Quick Links */
+function openSite(url){
+window.location.href=url;
 }
 
 </script>
